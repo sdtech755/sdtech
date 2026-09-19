@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next'
+import { siteConfig } from '@/config/site'
 
 export const dynamic = 'force-static'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://steelduct.com.my'
+  const baseUrl = siteConfig.url
   const currentDate = new Date()
 
   return [

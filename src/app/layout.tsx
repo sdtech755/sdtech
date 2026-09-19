@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Montserrat, Inter } from 'next/font/google'
 import Script from 'next/script'
+import { siteConfig } from '@/config/site'
 import './globals.css'
 
 const montserrat = Montserrat({
@@ -17,7 +18,7 @@ const inter = Inter({
   preload: false,
 })
 
-const siteUrl = 'https://steelduct.com.my'
+const siteUrl = siteConfig.url
 
 // ── Viewport Optimization for all Devices, OS & Screens (iPhone, iPad, Android, Desktop) ──
 export const viewport: Viewport = {

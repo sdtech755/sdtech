@@ -1,11 +1,15 @@
+// Domain dibaca dari environment variable — tukar dalam Cloudflare Pages dashboard sahaja.
+// Cloudflare Pages → Settings → Environment Variables → NEXT_PUBLIC_SITE_URL
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sdtech-ez6.pages.dev'
+
 export const siteConfig = {
   name: 'Steel Duct Environmental Sdn Bhd',
   shortName: 'Steel Duct',
   alternateName: 'Still Duct Technical Engineering',
   description:
     'Custom kitchen hood ductwork, industrial exhaust fans, commercial air coolers, and HVAC solutions in Malaysia. Certified CIDB M01 engineering team for commercial kitchens, factories, and commercial facilities.',
-  url: 'https://steelduct.com.my',
-  ogImage: 'https://steelduct.com.my/og-image.jpg',
+  url: siteUrl,
+  ogImage: `${siteUrl}/og-image.jpg`,
 
   // Contact details
   contact: {

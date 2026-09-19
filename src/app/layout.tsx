@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import { Montserrat, Inter } from 'next/font/google'
-import Script from 'next/script'
 import { siteConfig } from '@/config/site'
 import './globals.css'
 

@@ -353,28 +353,6 @@ export default function RootLayout({
         style={{ fontFamily: 'var(--font-inter), sans-serif' }}
       >
         {children}
-
-        {/* Google Ads Tag (AW-18433262027) - Enabled on live production domain only */}
-        <Script id="google-ads-tag" strategy="afterInteractive">
-          {`
-            (function() {
-              if (typeof window === 'undefined') return;
-              var host = window.location.hostname;
-              if (host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('10.') || host.endsWith('.local')) {
-                return;
-              }
-              var script = document.createElement('script');
-              script.async = true;
-              script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18433262027';
-              document.head.appendChild(script);
-
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-18433262027');
-            })();
-          `}
-        </Script>
       </body>
     </html>
   )

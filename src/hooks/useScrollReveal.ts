@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
  * Fade up once when element enters viewport.
  * Threshold=0 + rootMargin untuk trigger awal, timeout fallback untuk mobile.
  */
-export function useScrollReveal(threshold = 0) {
+export function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 

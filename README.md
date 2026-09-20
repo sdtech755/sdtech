@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Steel Duct Environmental Sdn Bhd — Website
 
-## Getting Started
+Laman web rasmi untuk **Steel Duct Environmental Sdn Bhd**, syarikat kontraktor HVAC dan ventilasi komersial bertauliah di Malaysia.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework**: Next.js 15 (Static Export)
+- **Styling**: Tailwind CSS v4
+- **Language**: TypeScript
+- **Deployment**: Cloudflare Pages
+
+## Cara Jalankan Secara Lokal
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000) dalam browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build untuk Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+Output folder: `out/`
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Push ke branch `main` — Cloudflare Pages akan auto-deploy.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Konfigurasi Domain
 
-## Deploy on Vercel
+Edit satu baris dalam `src/config/site.ts`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```ts
+url: 'https://domain-anda.com',
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Atau set environment variable `NEXT_PUBLIC_SITE_URL` dalam Cloudflare Pages dashboard.
+
+## Struktur Projek
+
+```
+src/
+├── app/             # Next.js App Router
+├── components/
+│   ├── layout/      # Navbar, Sidebar, Footer, Navigation
+│   ├── sections/    # Hero, Services, Gallery, FAQ, Contact, dll
+│   └── ui/          # ScrollReveal, LazySection, FloatingWhatsApp
+├── config/          # site.ts — konfigurasi domain & contact
+├── hooks/           # useScrollReveal
+└── types/           # TypeScript interfaces
+```

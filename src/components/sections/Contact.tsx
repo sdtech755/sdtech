@@ -147,8 +147,8 @@ export default function Contact() {
           {/* ── Direct Email Inquiry Form ── */}
           <div className="mb-16 rounded-3xl bg-black/70 border border-gray-800 p-6 sm:p-10 shadow-2xl backdrop-blur-md">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-800/80">
-              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400">
-                <Mail size={22} />
+              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366]">
+                <WhatsAppIcon size={22} />
               </div>
               <div>
                 <h3

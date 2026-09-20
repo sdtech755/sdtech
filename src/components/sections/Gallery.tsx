@@ -195,21 +195,19 @@ export default function Gallery() {
           </div>
 
           {/* ── Filter Tabs ── */}
-          <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-2 sm:gap-3 mb-12">
-            {galleryCategories.map((cat, idx) => {
+          <div className="flex flex-wrap items-center justify-start sm:justify-center gap-2 sm:gap-3 mb-12">
+            {galleryCategories.map((cat) => {
               const isActive = activeTab === cat.key
-              const isLastOdd = idx === galleryCategories.length - 1 && galleryCategories.length % 2 !== 0
               return (
                 <button
                   key={cat.key}
                   type="button"
                   onClick={() => setActiveTab(cat.key)}
                   className={[
-                    'w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer text-center',
+                    'px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer',
                     isActive
                       ? 'bg-orange-500 text-black shadow-lg shadow-orange-500/25 scale-105'
                       : 'bg-gray-900/90 hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-800 hover:border-gray-700',
-                    isLastOdd ? 'col-span-2 max-w-[calc(50%-4px)] mx-auto sm:max-w-none sm:mx-0' : '',
                   ].join(' ')}
                   style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                 >

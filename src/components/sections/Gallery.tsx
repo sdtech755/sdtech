@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
+  ArrowRight,
 } from 'lucide-react'
 import WhatsAppIcon from '@/components/ui/WhatsAppIcon'
 import LazySection from '@/components/ui/LazySection'
@@ -194,8 +195,8 @@ export default function Gallery() {
             </p>
           </div>
 
-          {/* ── Filter Tabs ── */}
-          <div className="flex flex-wrap items-center justify-start sm:justify-center gap-2 sm:gap-3 mb-12">
+          {/* ── Filter Tabs (Smooth horizontal swipe on mobile, centered on desktop) ── */}
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar pb-3 sm:pb-0 sm:flex-wrap sm:justify-center -mx-2 px-2 sm:mx-0 sm:px-0 mb-10 sm:mb-12">
             {galleryCategories.map((cat) => {
               const isActive = activeTab === cat.key
               return (
@@ -204,9 +205,9 @@ export default function Gallery() {
                   type="button"
                   onClick={() => setActiveTab(cat.key)}
                   className={[
-                    'px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer',
+                    'whitespace-nowrap flex-shrink-0 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer',
                     isActive
-                      ? 'bg-orange-500 text-black shadow-lg shadow-orange-500/25 scale-105'
+                      ? 'bg-orange-500 text-black shadow-lg shadow-orange-500/25 scale-100 sm:scale-105'
                       : 'bg-gray-900/90 hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-800 hover:border-gray-700',
                   ].join(' ')}
                   style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
@@ -296,11 +297,13 @@ export default function Gallery() {
                   </div>
 
                   {/* Card bottom action */}
-                  <div className="pt-3 border-t border-gray-900 flex items-center justify-between text-xs font-bold text-orange-500 group-hover:text-orange-400">
-                    <span>View Specifications</span>
-                    <span className="group-hover:translate-x-1 transition-transform duration-200">
-                      &rarr;
+                  <div className="mt-4 pt-3.5 border-t border-gray-900 flex items-center justify-between">
+                    <span className="text-xs font-bold text-orange-500 group-hover:text-orange-400 tracking-wide uppercase transition-colors">
+                      View Specifications
                     </span>
+                    <div className="flex items-center justify-center w-7 h-7 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 group-hover:bg-orange-500 group-hover:text-black group-hover:border-orange-500 transition-all duration-200">
+                      <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -139,6 +139,15 @@ select {
   background: #f97316;
 }
 
+/* ── Hide scrollbar for clean horizontal swipe ── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* ── Image & Media Optimization ── */
 img, video {
   max-width: 100%;

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Send, CheckCircle2, ShieldCheck } from 'lucide-react'
+import { MapPin, Phone, CheckCircle2, ShieldCheck } from 'lucide-react'
 import WhatsAppIcon from '@/components/ui/WhatsAppIcon'
 import LazySection from '@/components/ui/LazySection'
 
@@ -28,30 +28,26 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const subject = encodeURIComponent(
-      `Project Inquiry: ${formData.service} - ${formData.name || 'Customer'}`
-    )
-    const bodyText = [
-      'STEEL DUCT PROJECT INQUIRY DETAILS',
-      '====================================',
-      `Full Name / Company: ${formData.name}`,
-      `Phone / WhatsApp:    ${formData.phone}`,
-      `Email:               ${formData.email || 'Not provided'}`,
-      `Service Required:    ${formData.service}`,
-      `Project Location:    ${formData.location || 'Not provided'}`,
+    // Format mesej WhatsApp yang tersusun dan mudah dibaca
+    const lines = [
+      '📋 *PERTANYAAN PROJEK — STEEL DUCT*',
       '',
-      'Message / Requirements:',
-      '------------------------------------',
+      `👤 *Nama:* ${formData.name}`,
+      `📞 *No. Telefon:* ${formData.phone}`,
+      `📧 *Email:* ${formData.email || 'Tidak diberikan'}`,
+      `🔧 *Perkhidmatan:* ${formData.service}`,
+      `📍 *Lokasi Projek:* ${formData.location || 'Tidak diberikan'}`,
+      '',
+      '💬 *Butiran & Keperluan:*',
       formData.message,
       '',
-      '====================================',
-      'Sent via Steel Duct Website Inquiry Form',
-    ].join('\n')
+      '_Dihantar melalui Borang Pertanyaan Laman Web Steel Duct_',
+    ]
 
-    const mailtoUrl = `mailto:sdtechnic@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`
+    const waUrl = `https://wa.me/60389575808?text=${encodeURIComponent(lines.join('\n'))}`
 
-    // Open user's email client
-    window.location.href = mailtoUrl
+    // Buka WhatsApp dengan mesej yang telah diisi
+    window.open(waUrl, '_blank')
     setSubmitted(true)
   }
 
@@ -159,41 +155,51 @@ export default function Contact() {
                   className="text-xl font-bold text-white tracking-tight"
                   style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                 >
-                  Direct Email Inquiry Form
+                  WhatsApp Inquiry Form
                 </h3>
                 <p className="text-xs text-gray-400">
-                  Sends directly to <span className="text-orange-400 font-semibold">sdtechnic@gmail.com</span> for quotes and technical consultations.
+                  Isi borang dan klik <span className="text-green-400 font-semibold">Send Now</span> — mesej tersusun akan dihantar terus ke WhatsApp kami.
                 </p>
               </div>
             </div>
 
             {submitted ? (
-              <div className="p-8 rounded-2xl bg-orange-500/10 border border-orange-500/40 text-center">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 mb-4">
+              <div className="p-8 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/30 text-center">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366]/20 text-[#25D366] mb-4">
                   <CheckCircle2 size={32} />
                 </div>
                 <h4
                   className="text-2xl font-bold text-white mb-2"
                   style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                 >
-                  Inquiry Ready to Send!
+                  WhatsApp Dibuka!
                 </h4>
                 <p className="text-sm text-gray-300 max-w-lg mx-auto mb-6 leading-relaxed">
-                  Your email client has been prepared with your inquiry addressed to{' '}
-                  <span className="text-orange-400 font-semibold">sdtechnic@gmail.com</span>. If your email app did not open automatically, click the button below:
+                  Mesej pertanyaan anda telah disediakan. Jika WhatsApp tidak terbuka secara automatik, klik butang di bawah:
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <a
-                    href={`mailto:sdtechnic@gmail.com?subject=${encodeURIComponent(
-                      `Project Inquiry: ${formData.service} - ${formData.name}`
-                    )}&body=${encodeURIComponent(
-                      `Name: ${formData.name}\nPhone: ${formData.phone}\nService: ${formData.service}\nLocation: ${formData.location}\nMessage: ${formData.message}`
-                    )}`}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-black font-extrabold text-xs uppercase tracking-wider transition-all duration-200"
+                    href={`https://wa.me/60389575808?text=${encodeURIComponent([
+                      '📋 *PERTANYAAN PROJEK — STEEL DUCT*',
+                      '',
+                      `👤 *Nama:* ${formData.name}`,
+                      `📞 *No. Telefon:* ${formData.phone}`,
+                      `📧 *Email:* ${formData.email || 'Tidak diberikan'}`,
+                      `🔧 *Perkhidmatan:* ${formData.service}`,
+                      `📍 *Lokasi Projek:* ${formData.location || 'Tidak diberikan'}`,
+                      '',
+                      '💬 *Butiran & Keperluan:*',
+                      formData.message,
+                      '',
+                      '_Dihantar melalui Borang Pertanyaan Laman Web Steel Duct_',
+                    ].join('\n'))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] text-gray-950 font-extrabold text-xs uppercase tracking-wider transition-all duration-200"
                     style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                   >
-                    <Mail size={16} />
-                    Open Email Application
+                    <WhatsAppIcon size={16} />
+                    Buka WhatsApp
                   </a>
                   <button
                     type="button"
@@ -211,7 +217,7 @@ export default function Contact() {
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gray-900 hover:bg-gray-800 border border-gray-700 text-gray-300 hover:text-white font-semibold text-xs uppercase tracking-wider transition-all duration-200"
                     style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                   >
-                    Submit Another Inquiry
+                    Hantar Pertanyaan Lain
                   </button>
                 </div>
               </div>
@@ -344,10 +350,10 @@ export default function Contact() {
                 <div className="flex justify-end pt-2">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-black font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-xl shadow-orange-500/20 hover:shadow-orange-500/35 hover:-translate-y-0.5 cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-gray-950 font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-xl shadow-[#25D366]/25 hover:shadow-[#25D366]/40 hover:-translate-y-0.5 cursor-pointer"
                     style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                   >
-                    <Send size={16} />
+                    <WhatsAppIcon size={16} />
                     <span>Send Now</span>
                   </button>
                 </div>

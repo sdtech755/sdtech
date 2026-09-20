@@ -274,7 +274,7 @@ export default function Gallery() {
 
                     {/* Description */}
                     <p
-                      className="text-xs sm:text-sm text-gray-300 leading-relaxed mb-4 line-clamp-3"
+                      className="text-sm sm:text-sm text-gray-300 leading-relaxed mb-4 line-clamp-3"
                       style={{ fontFamily: 'var(--font-inter), sans-serif' }}
                     >
                       {item.description}
@@ -282,11 +282,11 @@ export default function Gallery() {
 
                     {/* Specifications List */}
                     <div className="mb-4">
-                      <ul className="space-y-1.5">
+                      <ul className="space-y-2">
                         {item.specifications.slice(0, 2).map((spec, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-gray-300">
+                          <li key={i} className="flex items-start gap-2 text-sm sm:text-xs text-gray-200">
                             <CheckCircle2
-                              size={14}
+                              size={15}
                               className="text-emerald-400 flex-shrink-0 mt-0.5"
                             />
                             <span className="line-clamp-1">{spec}</span>
@@ -447,9 +447,9 @@ export default function Gallery() {
                   >
                     Key Engineering Specifications:
                   </h4>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2.5">
                     {selectedItem.specifications.map((spec, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-xs text-gray-200">
+                      <li key={i} className="flex items-start gap-2.5 text-sm sm:text-xs text-gray-200">
                         <CheckCircle2
                           size={15}
                           className="text-emerald-400 flex-shrink-0 mt-0.5"

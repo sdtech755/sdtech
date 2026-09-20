@@ -262,7 +262,7 @@ export default function Services() {
                       </h4>
                       <ul className="grid grid-cols-1 gap-2.5">
                         {service.highlights.map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-300">
+                          <li key={idx} className="flex items-start gap-2.5 text-sm sm:text-sm text-gray-200">
                             <Check size={16} className="text-orange-500 mt-0.5 flex-shrink-0" />
                             <span>{item}</span>
                           </li>
@@ -320,7 +320,7 @@ export default function Services() {
                   Duct Steel Types &amp; Material Breakdown
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm text-gray-400 max-w-md">
+              <p className="text-sm sm:text-sm text-gray-300 max-w-md">
                 We manufacture and assemble all duct profiles in-house to match your mechanical drawings, velocity requirements, and local council standards.
               </p>
             </div>
@@ -338,7 +338,7 @@ export default function Services() {
                         <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400">
                           <ItemIcon size={20} strokeWidth={1.75} />
                         </div>
-                        <span className="text-[10px] font-bold text-orange-400 uppercase tracking-wider bg-gray-900 border border-gray-800 px-2 py-0.5 rounded">
+                        <span className="text-xs sm:text-[10px] font-bold text-orange-400 uppercase tracking-wider bg-gray-900 border border-gray-800 px-2.5 py-0.5 rounded">
                           {item.tag}
                         </span>
                       </div>
@@ -351,7 +351,7 @@ export default function Services() {
                       </h4>
 
                       <p
-                        className="text-xs text-gray-300 leading-relaxed mb-4"
+                        className="text-sm sm:text-xs text-gray-300 leading-relaxed mb-4"
                         style={{ fontFamily: 'var(--font-inter), sans-serif' }}
                       >
                         {item.desc}
@@ -359,10 +359,10 @@ export default function Services() {
                     </div>
 
                     <div className="pt-3 border-t border-gray-900">
-                      <ul className="space-y-1.5">
+                      <ul className="space-y-2">
                         {item.specs.map((spec, sIdx) => (
-                          <li key={sIdx} className="flex items-center gap-1.5 text-[11px] text-gray-400">
-                            <CheckCircle2 size={12} className="text-emerald-400 flex-shrink-0" />
+                          <li key={sIdx} className="flex items-center gap-2 text-xs sm:text-[11px] text-gray-200">
+                            <CheckCircle2 size={14} className="text-emerald-400 flex-shrink-0" />
                             <span>{spec}</span>
                           </li>
                         ))}

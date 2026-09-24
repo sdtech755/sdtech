@@ -33,21 +33,6 @@ html {
   }
 }
 
-/* ── Mobile Body Text: +1 size step untuk kebolehbacaan ── */
-/* Hanya target p dan li (bukan heading, label, atau badge) */
-@media (max-width: 639px) {
-  p.text-xs,
-  li.text-xs  { font-size: 0.875rem  !important; } /* 12px → 14px */
-
-  p.text-sm,
-  li.text-sm  { font-size: 1rem      !important; } /* 14px → 16px */
-
-  p.text-base,
-  li.text-base { font-size: 1.125rem !important; } /* 16px → 18px */
-
-  p.text-lg,
-  li.text-lg  { font-size: 1.25rem   !important; } /* 18px → 20px */
-}
 
 body {
   margin: 0;

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import {
   Maximize2,
@@ -11,6 +12,9 @@ import {
   ChevronRight,
   Sparkles,
   ArrowRight,
+  ShieldCheck,
+  Clock,
+  Wrench,
 } from 'lucide-react'
 import WhatsAppIcon from '@/components/ui/WhatsAppIcon'
 import LazySection from '@/components/ui/LazySection'
@@ -31,13 +35,17 @@ const galleryItems: GalleryItem[] = [
     category: 'Kitchen Hood',
     categoryKey: 'kitchen-hood',
     description:
-      'Heavy-duty construction for lasting performance. Our systems are built to withstand the demands of high-volume commercial kitchens.',
+      'Heavy-duty construction for lasting performance. Our kitchen hood ventilation systems are custom engineered and fabricated with high-grade stainless steel to withstand the demanding thermal and grease load of high-volume commercial kitchens.',
     location: 'Klang Valley, Selangor & KL',
+    leadTime: '3 – 5 Working Days',
+    scope: 'Custom 304 Stainless Steel Fabrication & Full Exhaust Duct Routing',
+    applications: 'Commercial Kitchens, Central Kitchens, Hotel Restaurants, F&B Franchises',
+    compliance: 'CIDB M01 Certified • BOMBA Fire Safety Compliant',
     specifications: [
-      'Heavy-duty stainless steel hood & ductwork construction',
-      'Engineered for high-volume commercial kitchens & restaurants',
-      'Custom fabrication tailored to exact on-site kitchen layout',
-      'Optimal exhaust airflow and efficient grease extraction',
+      'Heavy-duty grade 304 stainless steel hood & ductwork construction',
+      'Engineered for high-volume commercial kitchens & heavy-duty cooking lines',
+      'Custom fabrication tailored to exact on-site ceiling & kitchen layout',
+      'Optimal exhaust airflow with high-efficiency grease extraction baffle filters',
     ],
     image: '/images/gallery/kitchen-hood-installation.png',
   },
@@ -47,13 +55,17 @@ const galleryItems: GalleryItem[] = [
     category: 'Ducting Installation',
     categoryKey: 'ducting',
     description:
-      'Engineered for tight spaces and optimal airflow. Our ductwork integrates flawlessly, maximizing kitchen layout efficiency.',
+      'Engineered for tight spaces and optimal airflow. Our exterior and interior ductwork integrates flawlessly with building architecture, maximizing exhaust efficiency while minimizing backpressure and vibration.',
     location: 'Klang Valley, Selangor & KL',
+    leadTime: '4 – 7 Working Days',
+    scope: 'Exterior High-Rise Wall Risers, Fan Placement & Structural Bracing',
+    applications: 'Commercial Shoplots, High-Rise Buildings, Industrial Facilities',
+    compliance: 'CIDB Certified Engineering • Structural Wind Load Safe',
     specifications: [
-      'Custom sheet metal & exterior high-rise duct routing',
-      'Engineered for tight spaces & multi-storey wall risers',
-      'Balanced airflow dynamics with low static pressure drop',
-      'Heavy-duty standoff brackets with safe boom-lift installation',
+      'Custom sheet metal & exterior high-rise duct routing with weatherproof seals',
+      'Engineered for tight spaces & multi-storey exterior wall risers',
+      'Balanced airflow dynamics with low static pressure drop and acoustic insulation',
+      'Heavy-duty standoff brackets with safe boom-lift certified installation',
     ],
     image: '/images/gallery/ducting-installation.jpg',
   },
@@ -63,13 +75,17 @@ const galleryItems: GalleryItem[] = [
     category: 'Make-Up Air Balance',
     categoryKey: 'make-up-air',
     description:
-      'Complete system with ventilation and controlled room temperature.',
+      'Complete fresh air replacement and air balance system. Designed with evaporative cooling integration to maintain balanced static pressure, prevent kitchen odor migration, and keep ambient room temperatures comfortable for kitchen crew.',
     location: 'Klang Valley, Selangor & KL',
+    leadTime: '3 – 6 Working Days',
+    scope: 'Fresh Air Supply Diffusers, Make-Up Air Fans & Evaporative Cooling',
+    applications: 'Enclosed Kitchens, Cloud Kitchens, Food Courts, Production Bakeries',
+    compliance: 'ASHRAE Standards Compliant • Balanced Airflow Dynamics',
     specifications: [
-      'Complete make-up air & exhaust ventilation balance',
-      'Evaporative fresh air cooling integration for temperature control',
-      'Maintains comfortable kitchen room temperature & indoor air quality',
-      'Even air delivery through ceiling-mounted distribution diffusers',
+      'Complete make-up air & exhaust ventilation static pressure balance',
+      'Evaporative fresh air cooling integration for optimal temperature control',
+      'Maintains comfortable kitchen room temperature & healthy indoor air quality',
+      'Even air delivery through heavy-duty ceiling-mounted distribution diffusers',
     ],
     image: '/images/gallery/make-up-air-balance.jpg',
   },
@@ -79,13 +95,17 @@ const galleryItems: GalleryItem[] = [
     category: 'Air Cleaner System',
     categoryKey: 'air-cleaner',
     description:
-      'An effective oil and smoke filtration system that removes odors and smoke, especially for premises in enclosed areas.',
+      'High-performance electrostatic precipitator (ESP) oil and smoke filtration system. Effectively eliminates heavy cooking fumes, grease particles, and smoke before exhausting to the environment, ensuring full environmental compliance.',
     location: 'Klang Valley, Selangor & KL',
+    leadTime: '2 – 4 Working Days',
+    scope: 'Electrostatic Precipitator (ESP) Supply, Ceiling Rigging & Power Wiring',
+    applications: 'Shopping Mall F&B Outlets, Enclosed Shoplots, High-Density Commercial Hubs',
+    compliance: 'DOE (Jabatan Alam Sekitar) Compliant • Shopping Mall Standard',
     specifications: [
-      'High-efficiency electrostatic oil & smoke precipitation',
-      'Removes strong cooking odours, grease haze & fine fumes',
-      'Essential compliance for shopping malls, shoplots & enclosed venues',
-      'Heavy-duty ceiling mount with accessible servicing panels',
+      'High-efficiency electrostatic oil & smoke precipitation (up to 95%+ efficiency)',
+      'Removes strong cooking odours, grease haze, fine particulates & cooking fumes',
+      'Essential compliance for shopping malls, shoplots & enclosed commercial venues',
+      'Heavy-duty ceiling mount with accessible quick-release servicing panels',
     ],
     image: '/images/gallery/air-cleaner-system.jpg',
   },
@@ -94,6 +114,11 @@ const galleryItems: GalleryItem[] = [
 export default function Gallery() {
   const [activeTab, setActiveTab] = useState('all')
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const filteredItems =
     activeTab === 'all'
@@ -102,12 +127,10 @@ export default function Gallery() {
 
   const handleOpenModal = (item: GalleryItem) => {
     setSelectedItem(item)
-    document.body.style.overflow = 'hidden'
   }
 
   const handleCloseModal = useCallback(() => {
     setSelectedItem(null)
-    document.body.style.overflow = ''
   }, [])
 
   const handleNextItem = useCallback(() => {
@@ -123,6 +146,18 @@ export default function Gallery() {
     const prevIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length
     setSelectedItem(filteredItems[prevIndex])
   }, [selectedItem, filteredItems])
+
+  // Body scroll lock management
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [selectedItem])
 
   // Keyboard navigation for modal
   useEffect(() => {
@@ -343,143 +378,178 @@ export default function Gallery() {
         </div>
       </LazySection>
 
-      {/* ── Fullscreen Interactive Lightbox Modal ── */}
-      {selectedItem && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={selectedItem.title}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/90 backdrop-blur-xl animate-hero-fade"
-          onClick={handleCloseModal}
-        >
-          {/* Modal Container */}
+      {/* ── Gallery Lightbox Modal (Portaled to document.body) ── */}
+      {mounted &&
+        selectedItem &&
+        createPortal(
           <div
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl bg-gray-950 border border-gray-800 shadow-2xl flex flex-col lg:flex-row overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedItem.title}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-md animate-hero-fade"
+            onClick={handleCloseModal}
           >
-            {/* Close Button */}
-            <button
-              onClick={handleCloseModal}
-              aria-label="Close project modal"
-              className="absolute top-4 right-4 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-black/80 hover:bg-orange-500 border border-gray-700 hover:border-orange-500 text-gray-300 hover:text-black transition-all duration-200 cursor-pointer shadow-lg"
+            {/* Modal Card – Zero-scroll design: Desktop side-by-side, Mobile compact all-in-one view */}
+            <div
+              className="relative w-full max-w-4xl max-h-[calc(100dvh-24px)] md:max-h-[90dvh] rounded-2xl bg-[#0c0d12] border border-white/15 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] overflow-hidden flex flex-col md:flex-row my-auto"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={20} strokeWidth={2.5} />
-            </button>
+              {/* ── Left Column (Desktop) / Top Banner (Mobile) ── */}
+              <div className="relative w-full md:w-5/12 h-40 sm:h-48 md:h-auto min-h-[160px] md:min-h-[460px] bg-black flex-shrink-0">
+                <Image
+                  src={selectedItem.image}
+                  alt={selectedItem.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  className="object-cover object-center"
+                  priority
+                />
+                {/* Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0c0d12] via-transparent to-black/30 pointer-events-none" />
 
-            {/* Left/Top: High-Res Image with Prev/Next Navigation */}
-            <div className="relative w-full lg:w-1/2 min-h-[300px] lg:min-h-[460px] bg-black">
-              <Image
-                src={selectedItem.image}
-                alt={selectedItem.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain object-center bg-black"
-                priority
-              />
-
-              {filteredItems.length > 1 && (
-                <>
-                  {/* Prev Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handlePrevItem()
-                    }}
-                    aria-label="Previous project"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/70 hover:bg-orange-500 hover:text-black border border-gray-700 hover:border-orange-500 text-white transition-all duration-200 cursor-pointer"
-                  >
-                    <ChevronLeft size={20} strokeWidth={2.5} />
-                  </button>
-
-                  {/* Next Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleNextItem()
-                    }}
-                    aria-label="Next project"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/70 hover:bg-orange-500 hover:text-black border border-gray-700 hover:border-orange-500 text-white transition-all duration-200 cursor-pointer"
-                  >
-                    <ChevronRight size={20} strokeWidth={2.5} />
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Right/Bottom: Project Technical Details */}
-            <div className="w-full lg:w-1/2 p-6 sm:p-8 flex flex-col justify-between">
-              <div>
-                {/* Category & Location Header */}
-                <div className="flex flex-wrap items-center gap-2 mb-3">
+                {/* Category badge */}
+                <div className="absolute top-3 left-3 z-10">
                   <span
-                    className="px-3 py-1 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-400 text-xs font-bold tracking-wider uppercase"
+                    className="px-2.5 py-1 rounded-md bg-black/85 backdrop-blur-md border border-orange-500/60 text-orange-400 text-[10px] font-bold tracking-widest uppercase shadow-md"
                     style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                   >
                     {selectedItem.category}
                   </span>
-                  <div className="flex items-center gap-1 text-xs text-gray-400 font-medium">
-                    <MapPin size={13} className="text-orange-500" />
-                    <span>{selectedItem.location}</span>
-                  </div>
                 </div>
 
-                {/* Title */}
-                <h3
-                  className="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-tight"
-                  style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
-                >
-                  {selectedItem.title}
-                </h3>
+                {/* Prev / Next navigation buttons */}
+                {filteredItems.length > 1 && (
+                  <div className="absolute inset-x-2.5 top-1/2 -translate-y-1/2 z-20 flex items-center justify-between pointer-events-none">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handlePrevItem()
+                      }}
+                      aria-label="Previous project"
+                      className="pointer-events-auto flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/80 hover:bg-black border border-white/30 text-white active:scale-95 transition-all shadow-lg"
+                    >
+                      <ChevronLeft size={18} strokeWidth={2.5} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleNextItem()
+                      }}
+                      aria-label="Next project"
+                      className="pointer-events-auto flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/80 hover:bg-black border border-white/30 text-white active:scale-95 transition-all shadow-lg"
+                    >
+                      <ChevronRight size={18} strokeWidth={2.5} />
+                    </button>
+                  </div>
+                )}
+              </div>
 
-                {/* Description */}
-                <p
-                  className="text-sm text-gray-300 leading-relaxed mb-6"
-                  style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+              {/* ── Right Column (Desktop) / Bottom Content (Mobile) ── */}
+              <div className="relative w-full md:w-7/12 p-3.5 sm:p-5 md:p-6 flex flex-col justify-between gap-2 sm:gap-3.5 overflow-y-auto">
+                {/* X Close button – top right of card */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleCloseModal()
+                  }}
+                  aria-label="Close popup"
+                  className="absolute top-3 right-3 z-30 flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-orange-500 shadow-md active:scale-90 transition-all duration-200"
                 >
-                  {selectedItem.description}
-                </p>
+                  <X size={18} strokeWidth={2.5} />
+                </button>
 
-                {/* Specifications Checklist */}
-                <div className="mb-6">
-                  <h4
-                    className="text-xs font-bold tracking-widest uppercase text-orange-400 mb-3"
+                {/* 1. Header: Location & Lead Time */}
+                <div className="flex flex-wrap items-center gap-2 text-xs pr-10">
+                  <div className="flex items-center gap-1.5 text-gray-300">
+                    <MapPin size={12} className="text-orange-500 flex-shrink-0" />
+                    <span className="text-[11px] sm:text-xs">{selectedItem.location}</span>
+                  </div>
+                  {selectedItem.leadTime && (
+                    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-[10px] sm:text-[11px] font-semibold">
+                      <Clock size={11} />
+                      <span>{selectedItem.leadTime}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. Title & Description */}
+                <div>
+                  <h3
+                    className="text-base sm:text-lg md:text-xl font-extrabold text-white leading-tight mb-1"
                     style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                   >
-                    Key Engineering Specifications:
+                    {selectedItem.title}
+                  </h3>
+                  <p
+                    className="text-xs sm:text-[13px] text-gray-300 leading-snug"
+                    style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+                  >
+                    {selectedItem.description}
+                  </p>
+                </div>
+
+                {/* 3. Engineering Details Quick Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {selectedItem.scope && (
+                    <div className="p-2 sm:p-2.5 rounded-lg bg-white/[0.03] border border-white/10 flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-orange-400 uppercase tracking-wider">
+                        <Wrench size={12} />
+                        <span>Fabrication & Scope</span>
+                      </div>
+                      <p className="text-[11px] sm:text-xs text-gray-300 leading-tight">{selectedItem.scope}</p>
+                    </div>
+                  )}
+                  {selectedItem.compliance && (
+                    <div className="p-2 sm:p-2.5 rounded-lg bg-white/[0.03] border border-white/10 flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
+                        <ShieldCheck size={12} />
+                        <span>Compliance Standard</span>
+                      </div>
+                      <p className="text-[11px] sm:text-xs text-gray-300 leading-tight">{selectedItem.compliance}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* 4. Key Specifications */}
+                <div>
+                  <h4
+                    className="text-[10px] sm:text-[11px] font-bold tracking-widest text-gray-400 uppercase mb-1.5"
+                    style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+                  >
+                    Engineering Specifications:
                   </h4>
-                  <ul className="space-y-2.5">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                     {selectedItem.specifications.map((spec, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm sm:text-xs text-gray-200">
-                        <CheckCircle2
-                          size={15}
-                          className="text-emerald-400 flex-shrink-0 mt-0.5"
-                        />
+                      <li key={i} className="flex items-start gap-1.5 text-[11px] sm:text-xs text-gray-300 leading-tight">
+                        <CheckCircle2 size={13} className="text-emerald-400 flex-shrink-0 mt-0.5" />
                         <span>{spec}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </div>
 
-              {/* Inquiry Action */}
-              <div className="pt-4 border-t border-gray-800">
-                <a
-                  href={`https://wa.me/60389575808?text=Hello%20Steel%20Duct,%20I%20am%20interested%20in%20a%20project%20similar%20to:%20${encodeURIComponent(
-                    selectedItem.title
-                  )}%20(${selectedItem.location})`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-gray-950 font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-xl shadow-[#25D366]/20"
-                  style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
-                >
-                  <WhatsAppIcon size={18} />
-                  <span>Inquire About This Project</span>
-                </a>
+                {/* 5. Direct WhatsApp Action Button */}
+                <div className="pt-1">
+                  <a
+                    href={`https://wa.me/60389575808?text=Hello%20Steel%20Duct,%20I%20am%20interested%20in%20a%20project%20similar%20to:%20${encodeURIComponent(selectedItem.title)}%20(${selectedItem.location})`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 sm:py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-gray-950 font-extrabold text-xs sm:text-[13px] uppercase tracking-wider transition-all duration-200 active:scale-[0.98] shadow-lg shadow-[#25D366]/25"
+                    style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <WhatsAppIcon size={17} />
+                    <span>Inquire About This Project</span>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </section>
   )
 }

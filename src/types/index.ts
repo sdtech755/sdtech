@@ -58,4 +58,8 @@ export interface GalleryItem {
   location: string
   specifications: string[]
   image: string
+  scope?: string
+  applications?: string
+  compliance?: string
+  leadTime?: string
 }
